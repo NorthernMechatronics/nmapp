@@ -11,7 +11,7 @@ INCLUDES += -I$(AMBIQ_SDK)/CMSIS/ARM/Include
 INCLUDES += -I$(AMBIQ_SDK)/utils
 INCLUDES += -I$(FREERTOS)/Source/include
 INCLUDES += -I$(NM_SDK)/features/FreeRTOS
-INCLUDES += -I$(FREERTOS-PLUS)/Source/FreeRTOS-Plus-CLI
+INCLUDES += -I$(NM_SDK)/features/FreeRTOS-Plus-CLI
 
 ifdef DEBUG
     LIBS  = -lam_hal-dev
