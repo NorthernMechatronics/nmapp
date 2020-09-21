@@ -2,8 +2,6 @@ NM_SDK         := /home/joshua/git/nmsdk
 AMBIQ_SDK      := /home/joshua/git/AmbiqSuite-R2.4.2
 FREERTOS       := /home/joshua/git/FreeRTOS/FreeRTOS
 
-BSP_DIR        := $(NM_SDK)/bsp/nm180100evb/build
-
 include nm_application.mk
 
 ifdef DEBUG
@@ -15,10 +13,10 @@ endif
 LDSCRIPT := ./ldscript.ld
 ifdef DEBUG
     BUILDDIR := ./debug
-    BSP_LIB  := am_bsp-dev
+    BSP_LIB  := -lam_bsp-dev
 else
     BUILDDIR := ./release
-    BSP_LIB  := am_bsp
+    BSP_LIB  := -lam_bsp
 endif
 
 INCLUDES += -I$(NM_SDK)/bsp/devices
@@ -26,8 +24,8 @@ INCLUDES += -I$(NM_SDK)/bsp/nm180100evb
 INCLUDES += -I$(NM_SDK)/platform
 INCLUDES += -I.
 
-VPATH  = $(NM_SDK)/platform
-VPATH += .
+VPATH  = .
+VPATH += $(NM_SDK)/platform
 
 SRC  = startup_gcc.c
 SRC += main.c
@@ -36,11 +34,9 @@ SRC += application.c
 SRC += console_task.c
 SRC += gpio.c
 SRC += iom.c
-SRC += lora_direct_console.c
 SRC += lora_direct_config.c
+SRC += lora_direct_console.c
 SRC += lora_direct_task.c
-
-LIBS += -l$(BSP_LIB)
 
 CSRC = $(filter %.c, $(SRC))
 ASRC = $(filter %.s, $(SRC))
@@ -55,12 +51,12 @@ CFLAGS += $(INCLUDES)
 LFLAGS += -Wl,--start-group
 LFLAGS += -L$(AMBIQ_SDK)/CMSIS/ARM/Lib/ARM
 LFLAGS += -L$(NM_SDK)/build
-LFLAGS += -L$(BSP_DIR)
 LFLAGS += -larm_cortexM4lf_math
 LFLAGS += -lm
 LFLAGS += -lc
 LFLAGS += -lgcc
 LFLAGS += $(LIBS)
+LFLAGS += $(BSP_LIB)
 LFLAGS += --specs=nano.specs
 LFLAGS += --specs=nosys.specs
 LFLAGS += -Wl,--end-group
