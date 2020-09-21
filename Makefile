@@ -1,13 +1,12 @@
 NM_SDK         := /home/joshua/git/nmsdk
 AMBIQ_SDK      := /home/joshua/git/AmbiqSuite-R2.4.2
 FREERTOS       := /home/joshua/git/FreeRTOS/FreeRTOS
-FREERTOS-PLUS  := /home/joshua/git/FreeRTOS/FreeRTOS-Plus
 
 BSP_DIR        := $(NM_SDK)/bsp/nm180100evb/build
 
 include nm_application.mk
 
-TARGET   := test
+TARGET   := nmapp
 LDSCRIPT := ./ldscript.ld
 ifdef DEBUG
     BUILDDIR := ./debug
