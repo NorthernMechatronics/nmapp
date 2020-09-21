@@ -22,6 +22,7 @@
 #include "am_mcu_apollo.h"
 #include "am_bsp.h"
 #include "am_util.h"
+#include "am_devices_button.h"
 #include "am_devices_led.h"
 #include "am_hal_ctimer.h"
 
@@ -139,6 +140,8 @@ void system_setup(void)
 
     am_devices_led_array_init(am_bsp_psLEDs, AM_BSP_NUM_LEDS);
     am_devices_led_array_out(am_bsp_psLEDs, AM_BSP_NUM_LEDS, 0x0);
+
+    am_devices_button_array_init(am_bsp_psButtons, AM_BSP_NUM_BUTTONS);
 
     am_hal_interrupt_master_enable();
 }
