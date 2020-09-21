@@ -31,6 +31,9 @@ SRC += application.c
 SRC += console_task.c
 SRC += gpio.c
 SRC += iom.c
+SRC += lora_direct_console.c
+SRC += lora_direct_config.c
+SRC += lora_direct_task.c
 
 LIBS += -l$(BSP_LIB)
 
@@ -44,7 +47,18 @@ DEPS  = $(CSRC:%.c=$(BUILDDIR)/%.d)
 DEPS += $(ASRC:%.s=$(BUILDDIR)/%.d)
 
 CFLAGS += $(INCLUDES)
-LFLAGS += -Wl,--start-group -L$(NM_SDK)/build -L$(BSP_DIR) -lm -lc -lgcc $(LIBS) -Wl,--end-group
+LFLAGS += -Wl,--start-group
+LFLAGS += -L$(AMBIQ_SDK)/CMSIS/ARM/Lib/ARM
+LFLAGS += -L$(NM_SDK)/build
+LFLAGS += -L$(BSP_DIR)
+LFLAGS += -larm_cortexM4lf_math
+LFLAGS += -lm
+LFLAGS += -lc
+LFLAGS += -lgcc
+LFLAGS += $(LIBS)
+LFLAGS += --specs=nano.specs
+LFLAGS += --specs=nosys.specs
+LFLAGS += -Wl,--end-group
 
 all: directories $(BUILDDIR)/$(TARGET).bin
 

@@ -25,12 +25,15 @@
 #include "am_devices_led.h"
 #include "am_hal_ctimer.h"
 
-#include "FreeRTOS.h"
-#include "task.h"
+#include <FreeRTOS.h>
+#include <queue.h>
+#include <task.h>
 
 #include "console_task.h"
 #include "gpio.h"
 #include "iom.h"
+#include "lora_direct_task.h"
+#include "lora_direct_console.h"
 #include "application.h"
 
 //*****************************************************************************
@@ -144,6 +147,8 @@ void system_start(void)
 {
 	xTaskCreate(g_gpio_task, "GPIO", 512, 0, 4, &gpio_task_handle);
 	xTaskCreate(g_iom_task, "IOM", 512, 0, 4, &iom_task_handle);
+	xTaskCreate(g_lora_direct_console_task, "LoRa Direct Console", 512, 0, 4, &lora_direct_console_task_handle);
+	xTaskCreate(lora_direct_task, "LoRa Direct Task", 512, 0, 4, &lora_direct_task_handle);
 	xTaskCreate(g_console_task, "Console", 512, 0, 4, &console_task_handle);
 	xTaskCreate(application_task, "Application", 512, 0, 3, &xApplicationTask);
 	//
