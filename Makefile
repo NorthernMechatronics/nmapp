@@ -6,7 +6,12 @@ BSP_DIR        := $(NM_SDK)/bsp/nm180100evb/build
 
 include nm_application.mk
 
-TARGET   := nmapp
+ifdef DEBUG
+    TARGET   := nmapp-dev
+else
+    TARGET   := nmapp
+endif
+
 LDSCRIPT := ./ldscript.ld
 ifdef DEBUG
     BUILDDIR := ./debug
