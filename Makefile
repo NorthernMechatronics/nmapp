@@ -30,13 +30,11 @@ INCLUDES += -I$(NM_SDK)/platform
 INCLUDES += -I$(CORDIO_PROFILES)/sources/apps
 INCLUDES += -I$(CORDIO_PROFILES)/sources/apps/app
 INCLUDES += -I$(CORDIO_PROFILES)/sources/apps/app/common
-INCLUDES += -I$(CORDIO_PROFILES)/sources/apps/fit
 
 INCLUDES += -I.
 
 VPATH  = .
 VPATH += $(NM_SDK)/platform
-VPATH += $(CORDIO_PROFILES)/sources/apps/fit
 
 SRC  = startup_gcc.c
 SRC += main.c
@@ -49,8 +47,6 @@ SRC += lora_direct_console.c
 SRC += lora_direct_task.c
 
 SRC += application.c
-SRC += ble.c
-SRC += fit_main.c
 
 CSRC = $(filter %.c, $(SRC))
 ASRC = $(filter %.s, $(SRC))
