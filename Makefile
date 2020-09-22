@@ -56,12 +56,12 @@ SRC += console_task.c
 SRC += gpio_service.c
 SRC += iom.c
 
-#SRC += lora_direct_config.c
-#SRC += lora_direct_console.c
-#SRC += lora_direct_task.c
+SRC += lora_direct_config.c
+SRC += lora_direct_console.c
+SRC += lora_direct_task.c
 
-SRC += loramac_task.c
-SRC += loramac_app.c
+#SRC += loramac_task.c
+#SRC += loramac_app.c
 
 SRC += application.c
 

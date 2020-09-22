@@ -22,14 +22,20 @@
 #include <am_hal_ctimer.h>
 
 #include <FreeRTOS.h>
+#include <FreeRTOS_CLI.h>
 #include <queue.h>
 #include <task.h>
 
 #include "console_task.h"
-#include "gpio.h"
+#include "gpio_service.h"
 #include "iom.h"
+
 #include "lora_direct_task.h"
 #include "lora_direct_console.h"
+#include "lora_direct_console.h"
+
+#include "loramac_task.h"
+
 #include "application.h"
 
 //*****************************************************************************
@@ -138,16 +144,45 @@ void system_setup(void)
 
     am_devices_button_array_init(am_bsp_psButtons, AM_BSP_NUM_BUTTONS);
 
+  am_hal_ctimer_config_t timer0 =
+  {
+      .ui32Link = 0,
+
+      .ui32TimerAConfig = (AM_HAL_CTIMER_FN_REPEAT |
+       AM_HAL_CTIMER_INT_ENABLE |
+       AM_HAL_CTIMER_LFRC_32HZ),
+
+      .ui32TimerBConfig = 0,
+  };
+
+  am_hal_clkgen_control(AM_HAL_CLKGEN_CONTROL_LFRC_START, 0);
+  am_hal_ctimer_clear(0, AM_HAL_CTIMER_TIMERA);
+  am_hal_ctimer_config(0, &timer0);
+  am_hal_ctimer_period_set(0, AM_HAL_CTIMER_TIMERA, 31, 0);
+  am_hal_ctimer_int_clear(AM_HAL_CTIMER_INT_TIMERA0);
+
+
+
+
     am_hal_interrupt_master_enable();
 }
 
 void system_start(void)
 {
+
 	xTaskCreate(g_gpio_task, "GPIO", 512, 0, 4, &gpio_task_handle);
 	xTaskCreate(g_iom_task, "IOM", 512, 0, 4, &iom_task_handle);
 
+    xTaskCreate(g_lora_direct_console_task, "LoRa Direct Console", 512, 0, 4, &lora_direct_console_task_handle);
+    xTaskCreate(lora_direct_task, "LoRa Direct", 512, 0, 4, &lora_direct_task_handle);
+/*
+    g_loramac_task_setup();
+    xTaskCreate(g_loramac_task, "LoRaWAN", 512, 0, 3, &loramac_task_handle);
+*/
+
 	xTaskCreate(g_console_task, "Console", 512, 0, 2, &console_task_handle);
 	xTaskCreate(application_task, "Application", 512, 0, 1, &xApplicationTask);
+
 
 	//
     // Start the scheduler.
