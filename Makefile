@@ -1,6 +1,7 @@
-NM_SDK    := /home/joshua/git/nmsdk
-AMBIQ_SDK := /home/joshua/git/AmbiqSuite-R2.4.2
-FREERTOS  := /home/joshua/git/FreeRTOS/FreeRTOS
+NM_SDK    := $(error NM_SDK location not defined)
+AMBIQ_SDK := $(error AMBIQ_SDK location not defined)
+FREERTOS  := $(error FREERTOS location not defined)
+
 UECC      := $(AMBIQ_SDK)/third_party/uecc
 CORDIO    := $(AMBIQ_SDK)/third_party/exactle
 
