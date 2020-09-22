@@ -1,8 +1,11 @@
-NM_SDK         := /home/joshua/git/nmsdk
-AMBIQ_SDK      := /home/joshua/git/AmbiqSuite-R2.4.2
-FREERTOS       := /home/joshua/git/FreeRTOS/FreeRTOS
+NM_SDK    := /home/joshua/git/nmsdk
+AMBIQ_SDK := /home/joshua/git/AmbiqSuite-R2.4.2
+FREERTOS  := /home/joshua/git/FreeRTOS/FreeRTOS
+UECC      := $(AMBIQ_SDK)/third_party/uecc
+CORDIO    := $(AMBIQ_SDK)/third_party/exactle
 
 include nm_application.mk
+include nm_cordio.mk
 
 ifdef DEBUG
     TARGET   := nmapp-dev
@@ -22,21 +25,31 @@ endif
 INCLUDES += -I$(NM_SDK)/bsp/devices
 INCLUDES += -I$(NM_SDK)/bsp/nm180100evb
 INCLUDES += -I$(NM_SDK)/platform
+
+INCLUDES += -I$(CORDIO_PROFILES)/sources/apps
+INCLUDES += -I$(CORDIO_PROFILES)/sources/apps/app
+INCLUDES += -I$(CORDIO_PROFILES)/sources/apps/app/common
+INCLUDES += -I$(CORDIO_PROFILES)/sources/apps/fit
+
 INCLUDES += -I.
 
 VPATH  = .
 VPATH += $(NM_SDK)/platform
+VPATH += $(CORDIO_PROFILES)/sources/apps/fit
 
 SRC  = startup_gcc.c
 SRC += main.c
 SRC += build_timestamp.c
-SRC += application.c
 SRC += console_task.c
 SRC += gpio.c
 SRC += iom.c
 SRC += lora_direct_config.c
 SRC += lora_direct_console.c
 SRC += lora_direct_task.c
+
+SRC += application.c
+SRC += ble.c
+SRC += fit_main.c
 
 CSRC = $(filter %.c, $(SRC))
 ASRC = $(filter %.s, $(SRC))

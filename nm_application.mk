@@ -1,7 +1,3 @@
-ifndef NM_SDK
-    $(error NM SDK location NM_SDK not defined)
-endif
-
 include $(NM_SDK)/makedefs/nm_common.mk
 
 INCLUDES  = -I$(AMBIQ_SDK)/mcu/apollo3
