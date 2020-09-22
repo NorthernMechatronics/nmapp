@@ -1,12 +1,25 @@
-NM_SDK    := $(error NM_SDK location not defined)
-AMBIQ_SDK := $(error AMBIQ_SDK location not defined)
-FREERTOS  := $(error FREERTOS location not defined)
+ifndef NM_SDK
+    $(error NM_SDK location not defined)
+endif
+
+ifndef AMBIQ_SDK
+    $(error AMBIQ_SDK location not defined)
+endif
+
+ifndef FREERTOS
+    $(error FREERTOS location not defined)
+endif
+
+ifndef LORAMAC
+    $(error LORAMAC location not defined)
+endif
 
 UECC      := $(AMBIQ_SDK)/third_party/uecc
 CORDIO    := $(AMBIQ_SDK)/third_party/exactle
 
 include nm_application.mk
 include nm_cordio.mk
+include nm_loramac.mk
 
 ifdef DEBUG
     TARGET   := nmapp-dev
@@ -40,11 +53,15 @@ SRC  = startup_gcc.c
 SRC += main.c
 SRC += build_timestamp.c
 SRC += console_task.c
-SRC += gpio.c
+SRC += gpio_service.c
 SRC += iom.c
-SRC += lora_direct_config.c
-SRC += lora_direct_console.c
-SRC += lora_direct_task.c
+
+#SRC += lora_direct_config.c
+#SRC += lora_direct_console.c
+#SRC += lora_direct_task.c
+
+SRC += loramac_task.c
+SRC += loramac_app.c
 
 SRC += application.c
 
