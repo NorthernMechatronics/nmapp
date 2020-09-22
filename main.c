@@ -144,26 +144,6 @@ void system_setup(void)
 
     am_devices_button_array_init(am_bsp_psButtons, AM_BSP_NUM_BUTTONS);
 
-  am_hal_ctimer_config_t timer0 =
-  {
-      .ui32Link = 0,
-
-      .ui32TimerAConfig = (AM_HAL_CTIMER_FN_REPEAT |
-       AM_HAL_CTIMER_INT_ENABLE |
-       AM_HAL_CTIMER_LFRC_32HZ),
-
-      .ui32TimerBConfig = 0,
-  };
-
-  am_hal_clkgen_control(AM_HAL_CLKGEN_CONTROL_LFRC_START, 0);
-  am_hal_ctimer_clear(0, AM_HAL_CTIMER_TIMERA);
-  am_hal_ctimer_config(0, &timer0);
-  am_hal_ctimer_period_set(0, AM_HAL_CTIMER_TIMERA, 31, 0);
-  am_hal_ctimer_int_clear(AM_HAL_CTIMER_INT_TIMERA0);
-
-
-
-
     am_hal_interrupt_master_enable();
 }
 
