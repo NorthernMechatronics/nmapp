@@ -145,9 +145,6 @@ void system_start(void)
 {
 	xTaskCreate(g_gpio_task, "GPIO", 512, 0, 4, &gpio_task_handle);
 	xTaskCreate(g_iom_task, "IOM", 512, 0, 4, &iom_task_handle);
-	xTaskCreate(g_lora_direct_console_task, "LoRa Direct Console", 512, 0, 4, &lora_direct_console_task_handle);
-
-	xTaskCreate(lora_direct_task, "LoRa Direct Task", 512, 0, 3, &lora_direct_task_handle);
 
 	xTaskCreate(g_console_task, "Console", 512, 0, 2, &console_task_handle);
 	xTaskCreate(application_task, "Application", 512, 0, 1, &xApplicationTask);
