@@ -8,17 +8,12 @@
 #include <stdbool.h>
 #include <string.h>
 
-//*****************************************************************************
-//
-// Standard AmbiqSuite includes.
-//
-//*****************************************************************************
-#include "am_mcu_apollo.h"
-#include "am_bsp.h"
-#include "am_util.h"
+#include <am_mcu_apollo.h>
+#include <am_bsp.h>
+#include <am_util.h>
 
-#include "FreeRTOS.h"
-#include "queue.h"
+#include <FreeRTOS.h>
+#include <queue.h>
 
 #include "application.h"
 
