@@ -32,7 +32,6 @@
 
 #include "lora_direct_task.h"
 #include "lora_direct_console.h"
-#include "lora_direct_console.h"
 
 #include "loramac_task.h"
 
