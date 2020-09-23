@@ -36,8 +36,10 @@ else
     BSP_LIB  := -lam_bsp
 endif
 
+BSP_DIR := $(NM_SDK)/bsp/nm180100evb
+
 INCLUDES += -I$(NM_SDK)/bsp/devices
-INCLUDES += -I$(NM_SDK)/bsp/nm180100evb
+INCLUDES += -I$(BSP_DIR)
 INCLUDES += -I$(NM_SDK)/platform
 
 INCLUDES += -I$(CORDIO_PROFILES)/sources/apps
@@ -78,6 +80,7 @@ CFLAGS += $(INCLUDES)
 LFLAGS += -Wl,--start-group
 LFLAGS += -L$(AMBIQ_SDK)/CMSIS/ARM/Lib/ARM
 LFLAGS += -L$(NM_SDK)/build
+LFLAGS += -L$(BSP_DIR)/$(BUILDDIR)
 LFLAGS += -larm_cortexM4lf_math
 LFLAGS += -lm
 LFLAGS += -lc
