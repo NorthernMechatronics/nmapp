@@ -14,6 +14,8 @@ ifdef DEBUG
     LIBS += -lam_utils-dev
     LIBS += -lfreertos-dev
     LIBS += -lfreertos-cli-dev
+
+    DEFINES += -DAM_DEBUG_PRINTF
 else
     LIBS  = -lam_hal
     LIBS += -lam_utils

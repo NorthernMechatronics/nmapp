@@ -77,6 +77,8 @@ DEPS  = $(CSRC:%.c=$(BUILDDIR)/%.d)
 DEPS += $(ASRC:%.s=$(BUILDDIR)/%.d)
 
 CFLAGS += $(INCLUDES)
+CFLAGS += $(DEFINES)
+
 LFLAGS += -Wl,--start-group
 LFLAGS += -L$(AMBIQ_SDK)/CMSIS/ARM/Lib/ARM
 LFLAGS += -L$(NM_SDK)/build

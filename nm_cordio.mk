@@ -65,6 +65,7 @@ INCLUDES += -I$(CORDIO_PROFILES)/sources/profiles/wpc
 
 ifdef DEBUG
     LIBS += -lcordio-dev
+    DEFINES += -DWSF_TRACE_ENABLED
 else
     LIBS += -lcordio
 endif
