@@ -1,14 +1,3 @@
-/*
- * main.c
- *
- *  Created on: Jul 15, 2019
- *      Author: joshua
- */
-//*****************************************************************************
-//
-// Required built-ins.
-//
-//*****************************************************************************
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
@@ -22,13 +11,11 @@
 #include <am_hal_ctimer.h>
 
 #include <FreeRTOS.h>
-#include <FreeRTOS_CLI.h>
-#include <queue.h>
 #include <task.h>
 
 #include "console_task.h"
 #include "gpio_service.h"
-#include "iom.h"
+#include "iom_service.h"
 
 #include "application.h"
 
@@ -133,9 +120,11 @@ void system_setup(void)
     am_hal_pwrctrl_low_power_init();
     am_hal_rtc_osc_disable();
 
+    //
+    // Initialize any board specific peripherals
+    //
     am_devices_led_array_init(am_bsp_psLEDs, AM_BSP_NUM_LEDS);
     am_devices_led_array_out(am_bsp_psLEDs, AM_BSP_NUM_LEDS, 0x0);
-
     am_devices_button_array_init(am_bsp_psButtons, AM_BSP_NUM_BUTTONS);
 
     am_hal_interrupt_master_enable();
@@ -143,12 +132,11 @@ void system_setup(void)
 
 void system_start(void)
 {
-
+    // Setup tasks to register the GPIO and IOM commands in the console
 	xTaskCreate(g_gpio_task, "GPIO", 512, 0, 4, &gpio_task_handle);
 	xTaskCreate(g_iom_task, "IOM", 512, 0, 4, &iom_task_handle);
 
 	xTaskCreate(g_console_task, "Console", 512, 0, 2, &console_task_handle);
-
 	xTaskCreate(application_task, "Application", 512, 0, 1, &xApplicationTask);
 
 	//

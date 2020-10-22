@@ -29,12 +29,6 @@ include makedefs/nm_application.mk
 include makedefs/nm_cordio.mk
 include makedefs/nm_loramac.mk
 
-ifdef DEBUG
-    TARGET   := nmapp-dev
-else
-    TARGET   := nmapp
-endif
-
 LDSCRIPT := ./ldscript.ld
 ifdef DEBUG
     BUILDDIR := ./debug
@@ -54,21 +48,12 @@ INCLUDES += -I$(CORDIO_PROFILES)/sources/apps/app/common
 
 INCLUDES += -I.
 
-VPATH  = .
 VPATH += $(NM_SDK)/platform
+VPATH += .
 
-SRC  = startup_gcc.c
+SRC += startup_gcc.c
 SRC += main.c
 SRC += build_timestamp.c
-SRC += console_task.c
-SRC += gpio_service.c
-SRC += iom.c
-
-SRC += lora_direct_config.c
-SRC += lora_direct_console.c
-SRC += lora_direct_task.c
-
-SRC += application.c
 
 CSRC = $(filter %.c, $(SRC))
 ASRC = $(filter %.s, $(SRC))

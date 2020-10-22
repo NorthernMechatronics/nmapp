@@ -16,3 +16,34 @@ LORAMAC   := $(HOME)/git/loramac-node
 #
 #******************************************************************************
 BSP_DIR := $(NM_SDK)/bsp/nm180100evb
+
+#******************************************************************************
+#
+# Specify output target name
+#
+#******************************************************************************
+ifdef DEBUG
+    TARGET   := nmapp-dev
+else
+    TARGET   := nmapp
+endif
+
+#******************************************************************************
+#
+# Include additional source, header, libraries or paths below.
+#
+# Examples:
+#   INCLUDES += -Iadditional_include_path
+#   VPATH    += additional_source_path
+#   LIBS     += -ladditional_library
+#******************************************************************************
+
+INCLUDES += -I$(NM_SDK)/platform/console
+
+VPATH += $(NM_SDK)/platform/console
+
+SRC += console_task.c
+SRC += gpio_service.c
+SRC += iom_service.c
+
+SRC += application.c
