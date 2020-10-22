@@ -32,7 +32,7 @@
 #ifndef _APPLICATION_H_
 #define _APPLICATION_H_
 
-extern TaskHandle_t xApplicationTask;
+extern TaskHandle_t application_task_handle;
 
 extern void application_task(void *pvParameters);
 

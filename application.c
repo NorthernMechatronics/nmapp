@@ -42,7 +42,7 @@
 
 #include "application.h"
 
-TaskHandle_t xApplicationTask;
+TaskHandle_t application_task_handle;
 
 void application_task(void *pvParameters)
 {
