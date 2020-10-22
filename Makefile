@@ -1,25 +1,33 @@
+include application.mk
+
 ifndef NM_SDK
     $(error NM_SDK location not defined)
 endif
 
 ifndef AMBIQ_SDK
-    $(error AMBIQ_SDK location not defined)
+    $(error AmbiqSuite SDK location not defined)
+endif
+
+ifndef CORDIO
+    $(error ARM BLE Cordio Stack location not defined)
+endif
+
+ifndef UECC
+    $(error Micro ECC library location not defined)
 endif
 
 ifndef FREERTOS
-    $(error FREERTOS location not defined)
+    $(error FreeRTOS location not defined)
 endif
 
 ifndef LORAMAC
-    $(error LORAMAC location not defined)
+    $(error LoRaMAC Node library location not defined)
 endif
 
-UECC      := $(AMBIQ_SDK)/third_party/uecc
-CORDIO    := $(AMBIQ_SDK)/third_party/exactle
-
-include nm_application.mk
-include nm_cordio.mk
-include nm_loramac.mk
+include makedefs/nm_common.mk
+include makedefs/nm_application.mk
+include makedefs/nm_cordio.mk
+include makedefs/nm_loramac.mk
 
 ifdef DEBUG
     TARGET   := nmapp-dev
@@ -36,10 +44,8 @@ else
     BSP_LIB  := -lam_bsp
 endif
 
-BSP_DIR := $(NM_SDK)/bsp/nm180100evb
-
-INCLUDES += -I$(NM_SDK)/bsp/devices
 INCLUDES += -I$(BSP_DIR)
+INCLUDES += -I$(NM_SDK)/bsp/devices
 INCLUDES += -I$(NM_SDK)/platform
 
 INCLUDES += -I$(CORDIO_PROFILES)/sources/apps
@@ -61,9 +67,6 @@ SRC += iom.c
 SRC += lora_direct_config.c
 SRC += lora_direct_console.c
 SRC += lora_direct_task.c
-
-#SRC += loramac_task.c
-#SRC += loramac_app.c
 
 SRC += application.c
 
@@ -93,12 +96,15 @@ LFLAGS += --specs=nano.specs
 LFLAGS += --specs=nosys.specs
 LFLAGS += -Wl,--end-group
 
-all: directories $(BUILDDIR)/$(TARGET).bin
+all: directories bsp $(BUILDDIR)/$(TARGET).bin
 
 directories: $(BUILDDIR)
 
 $(BUILDDIR):
 	@mkdir -p $@
+
+bsp:
+	$(MAKE) -C $(BSP_DIR) AMBIQ_SDK=$(AMBIQ_SDK)
 
 $(BUILDDIR)/%.o: %.c $(BUILDDIR)/%.d $(INCS)
 	@echo "Compiling $(COMPILERNAME) $<" ;\
