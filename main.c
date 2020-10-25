@@ -1,14 +1,14 @@
-#include <stdint.h>
 #include <stdbool.h>
-#include <string.h>
+#include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 
-#include <am_mcu_apollo.h>
 #include <am_bsp.h>
-#include <am_util.h>
 #include <am_devices_button.h>
 #include <am_devices_led.h>
 #include <am_hal_ctimer.h>
+#include <am_mcu_apollo.h>
+#include <am_util.h>
 
 #include <FreeRTOS.h>
 #include <task.h>
@@ -39,10 +39,7 @@ uint32_t am_freertos_sleep(uint32_t idleTime)
 // Do necessary 'wakeup' operations here, e.g. to power up/enable peripherals etc.
 //
 //*****************************************************************************
-void am_freertos_wakeup(uint32_t idleTime)
-{
-    return;
-}
+void am_freertos_wakeup(uint32_t idleTime) { return; }
 
 void am_gpio_isr(void)
 {
@@ -55,11 +52,11 @@ void am_gpio_isr(void)
 
 void am_ctimer_isr(void)
 {
-	uint32_t ui32Status;
+    uint32_t ui32Status;
 
-	ui32Status = am_hal_ctimer_int_status_get(true);
-	am_hal_ctimer_int_clear(ui32Status);
-	am_hal_ctimer_int_service(ui32Status);
+    ui32Status = am_hal_ctimer_int_status_get(true);
+    am_hal_ctimer_int_clear(ui32Status);
+    am_hal_ctimer_int_service(ui32Status);
 }
 
 //*****************************************************************************
@@ -67,8 +64,7 @@ void am_ctimer_isr(void)
 // FreeRTOS debugging functions.
 //
 //*****************************************************************************
-void
-vApplicationMallocFailedHook(void)
+void vApplicationMallocFailedHook(void)
 {
     //
     // Called if a call to pvPortMalloc() fails because there is insufficient
@@ -77,26 +73,24 @@ vApplicationMallocFailedHook(void)
     // timers, and semaphores.  The size of the FreeRTOS heap is set by the
     // configTOTAL_HEAP_SIZE configuration constant in FreeRTOSConfig.h.
     //
-    while (1);
+    while (1)
+        ;
 }
 
-void
-vApplicationStackOverflowHook(TaskHandle_t pxTask, char *pcTaskName)
+void vApplicationStackOverflowHook(TaskHandle_t pxTask, char *pcTaskName)
 {
-    (void) pcTaskName;
-    (void) pxTask;
+    (void)pcTaskName;
+    (void)pxTask;
 
     //
     // Run time stack overflow checking is performed if
     // configconfigCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2.  This hook
     // function is called if a stack overflow is detected.
     //
-    while (1)
-    {
-        __asm("BKPT #0\n") ; // Break into the debugger
+    while (1) {
+        __asm("BKPT #0\n"); // Break into the debugger
     }
 }
-
 
 void system_setup(void)
 {
@@ -133,15 +127,16 @@ void system_setup(void)
 void system_start(void)
 {
     // Setup tasks to register the GPIO and IOM commands in the console.
-    // These are run at the highest priority to ensure that the commands 
+    // These are run at the highest priority to ensure that the commands
     // registered before the console starts.
-	xTaskCreate(nm_gpio_task, "GPIO", 512, 0, 4, &nm_gpio_task_handle);
-	xTaskCreate(nm_iom_task, "IOM", 512, 0, 4, &nm_iom_task_handle);
+    xTaskCreate(nm_gpio_task, "GPIO", 512, 0, 4, &nm_gpio_task_handle);
+    xTaskCreate(nm_iom_task, "IOM", 512, 0, 4, &nm_iom_task_handle);
 
-	xTaskCreate(nm_console_task, "Console", 512, 0, 2, &nm_console_task_handle);
-	xTaskCreate(application_task, "Application", 512, 0, 1, &application_task_handle);
+    xTaskCreate(nm_console_task, "Console", 512, 0, 2, &nm_console_task_handle);
+    xTaskCreate(application_task, "Application", 512, 0, 1,
+                &application_task_handle);
 
-	//
+    //
     // Start the scheduler.
     //
     vTaskStartScheduler();
@@ -149,12 +144,11 @@ void system_start(void)
 
 int main(void)
 {
-	system_setup();
-	system_start();
+    system_setup();
+    system_start();
 
-	while (1)
-	{
-	}
+    while (1) {
+    }
 
-	return 0;
+    return 0;
 }
