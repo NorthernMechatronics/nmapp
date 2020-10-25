@@ -22,9 +22,9 @@ configuration is selected.  The output target will be located in either the debu
 the release directory.
 
 ## Debug Configuration
-make DEBUG=1
-make DEBUG=1 clean
+* make DEBUG=1
+* make DEBUG=1 clean
 
 ## Release Configuration
-make
-make clean
+* make
+* make clean
