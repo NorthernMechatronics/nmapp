@@ -135,8 +135,8 @@ void system_start(void)
     // Setup tasks to register the GPIO and IOM commands in the console.
     // These are run at the highest priority to ensure that the commands 
     // registered before the console starts.
-	xTaskCreate(gpio_task, "GPIO", 512, 0, 4, &gpio_task_handle);
-	xTaskCreate(iom_task, "IOM", 512, 0, 4, &iom_task_handle);
+	xTaskCreate(nm_gpio_task, "GPIO", 512, 0, 4, &nm_gpio_task_handle);
+	xTaskCreate(nm_iom_task, "IOM", 512, 0, 4, &nm_iom_task_handle);
 
 	xTaskCreate(nm_console_task, "Console", 512, 0, 2, &nm_console_task_handle);
 	xTaskCreate(application_task, "Application", 512, 0, 1, &application_task_handle);
