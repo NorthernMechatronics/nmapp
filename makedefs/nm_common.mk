@@ -21,8 +21,15 @@ OD   = $(TOOLCHAIN)-objdump
 RD   = $(TOOLCHAIN)-readelf
 AR   = $(TOOLCHAIN)-ar
 SIZE = $(TOOLCHAIN)-size
-CP   = $(shell which cp 2>/dev/null)
-RM   = $(shell which rm 2>/dev/null)
+
+ifeq ($(OS), Windows_NT)
+  MKDIR = mkdir
+  CP    = cp
+  RM    = rm
+else
+  CP   = $(shell which cp 2>/dev/null)
+  RM   = $(shell which rm 2>/dev/null)
+endif
 
 DEFINES  = -Dgcc
 DEFINES += -DAM_PART_APOLLO3
