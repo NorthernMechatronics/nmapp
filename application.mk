@@ -42,6 +42,32 @@ endif
 #   LIBS     += -ladditional_library
 #******************************************************************************
 
+####################################################
+#
+# BLE OTA Profile
+# Uncomment the following if your application
+# supports BLE over the air firwmware updates.
+#
+####################################################
+#INCLUDES += -I$(AMBIQ_SDK)/bootloader
+#VPATH += $(AMBIQ_SDK)/bootloader
+#SRC += am_bootloader.c
+#SRC += am_multi_boot.c
+#
+#INCLUDES += -I$(AMBIQ_SDK)/ambiq_ble/services
+#VPATH += $(AMBIQ_SDK)/ambiq_ble/services
+#SRC += svc_amotas.c
+#
+#INCLUDES += -I$(AMBIQ_SDK)/ambiq_ble/profiles/amota
+#VPATH += $(AMBIQ_SDK)/ambiq_ble/profiles/amota
+#SRC += amotas_main.c
+#
+#INCLUDES += -I$(AMBIQ_SDK)/ambiq_ble/apps/amota
+#VPATH += $(AMBIQ_SDK)/ambiq_ble/apps/amota
+#SRC += amota_main.c
+#
+####################################################
+
 INCLUDES += -I$(NM_SDK)/platform/console
 
 VPATH += $(NM_SDK)/platform/console
@@ -51,3 +77,4 @@ SRC += gpio_service.c
 SRC += iom_service.c
 
 SRC += application.c
+
