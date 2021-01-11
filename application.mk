@@ -22,13 +22,19 @@ BSP_DIR := $(NM_SDK)/bsp/nm180100evb
 #******************************************************************************
 #
 # Step 3
-# Specify output target name
+# Specify output target version and name
 #
 #******************************************************************************
+TARGET_VERSION := 0x00
+
 ifdef DEBUG
-    TARGET   := nmapp-dev
+    TARGET      := nmapp-dev
+    TARGET_OTA  := nmapp_ota-dev
+    TARGET_WIRE := nmapp_wire-dev
 else
-    TARGET   := nmapp
+    TARGET      := nmapp
+    TARGET_OTA  := nmapp_ota
+    TARGET_WIRE := nmapp_wire
 endif
 
 #******************************************************************************

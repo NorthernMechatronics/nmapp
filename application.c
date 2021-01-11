@@ -46,8 +46,10 @@ TaskHandle_t application_task_handle;
 
 void application_task(void *pvParameters)
 {
+    am_util_stdio_printf("Hello World\r\n");
+
     while (1) {
-        am_hal_gpio_state_write(10, AM_HAL_GPIO_OUTPUT_TOGGLE);
+        am_hal_gpio_state_write(AM_BSP_GPIO_LED0, AM_HAL_GPIO_OUTPUT_TOGGLE);
         vTaskDelay(500);
     }
 }
