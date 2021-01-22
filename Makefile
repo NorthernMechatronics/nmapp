@@ -32,10 +32,10 @@ include makedefs/nm_loramac.mk
 LDSCRIPT := ./ldscript.ld
 ifdef DEBUG
     BUILDDIR := ./debug
-    BSP_LIB  := -lam_bsp-dev
+    BSP_LIB  := am_bsp-dev
 else
     BUILDDIR := ./release
-    BSP_LIB  := -lam_bsp
+    BSP_LIB  := am_bsp
 endif
 
 BSP_C := $(BSP_DIR)/am_bsp_pins.c
@@ -79,7 +79,7 @@ LFLAGS += -lm
 LFLAGS += -lc
 LFLAGS += -lgcc
 LFLAGS += $(LIBS)
-LFLAGS += $(BSP_LIB)
+LFLAGS += -l$(BSP_LIB)
 LFLAGS += --specs=nano.specs
 LFLAGS += --specs=nosys.specs
 LFLAGS += -Wl,--end-group
@@ -95,12 +95,10 @@ directories: $(BUILDDIR)
 $(BUILDDIR):
 	@$(MKDIR) $@
 
-bsp:
+bsp: $(BSP_DIR)/$(BUILDDIR)/lib$(BSP_LIB).a
+
+$(BSP_DIR)/$(BUILDDIR)/lib$(BSP_LIB).a:
 	$(MAKE) -C $(BSP_DIR) AMBIQ_SDK=$(AMBIQ_SDK)
-
-$(BSP_C): bsp
-
-$(BSP_H): bsp
 
 $(BUILDDIR)/%.o: %.c $(BUILDDIR)/%.d $(INCS) $(BSP_C) $(BSP_H)
 	@echo "Compiling $(COMPILERNAME) $<"
