@@ -38,15 +38,70 @@
 #include <am_util.h>
 
 #include <FreeRTOS.h>
+#include <timers.h>
 #include <queue.h>
 
 #include "application.h"
 
 TaskHandle_t application_task_handle;
 
+TimerHandle_t xButtonTimer;
+
+//*****************************************************************************
+//
+// Poll the buttons.
+//
+//*****************************************************************************
+void
+button_timer_handler(TimerHandle_t xTimer)
+{
+    //
+    // Every time we get a button timer tick, check all of our buttons.
+    //
+    am_devices_button_array_tick(am_bsp_psButtons, AM_BSP_NUM_BUTTONS);
+
+    //
+    // If we got a a press, do something with it.
+    //
+    if ( am_devices_button_released(am_bsp_psButtons[0]) || am_devices_button_released(am_bsp_psButtons[1]) ||  am_devices_button_released(am_bsp_psButtons[2]) )
+    {
+      am_util_debug_printf("Toggle LED!\r\n");
+      am_hal_gpio_state_write(AM_BSP_GPIO_LED4, AM_HAL_GPIO_OUTPUT_TOGGLE);
+    }
+}
+
+//*****************************************************************************
+//
+// Sets up a button interface.
+//
+//*****************************************************************************
+void
+setup_buttons(void)
+{
+    //
+    // Enable the buttons for user interaction.
+    //
+    am_devices_button_array_init(am_bsp_psButtons, AM_BSP_NUM_BUTTONS);
+
+    //
+    // Start a timer.
+    //
+
+    // Create a FreeRTOS Timer
+    xButtonTimer = xTimerCreate("Button Timer", pdMS_TO_TICKS(20),
+            pdTRUE, NULL, button_timer_handler);
+
+    if (xButtonTimer != NULL)
+    {
+        xTimerStart(xButtonTimer, 100);
+    }
+}
+
 void application_task(void *pvParameters)
 {
     am_util_stdio_printf("Hello World\r\n");
+
+    setup_buttons();
 
     while (1) {
         am_hal_gpio_state_write(AM_BSP_GPIO_LED0, AM_HAL_GPIO_OUTPUT_TOGGLE);
